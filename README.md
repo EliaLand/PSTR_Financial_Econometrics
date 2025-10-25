@@ -1,1 +1,1 @@
-# PSTR_Asset_Pricing
+# PSTR_Financial_Econometrics
