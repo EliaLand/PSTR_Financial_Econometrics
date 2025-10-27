@@ -16,6 +16,10 @@ EUROSTAT_BASE = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/
 # https://finnhub.io/docs/api
 FINNHUB_api_key = "d3vpeahr01qhm1tedllgd3vpeahr01qhm1tedlm0"
 
+# YAHOO!FINANCE library 
+# https://developer.yahoo.com/api/
+# no API, but library (dbnomics)
+
 # DBNOMICS library
 # https://api.db.nomics.world/v22/apidocs#/
-# not API, but library (dbnomics)
+# no API, but library (dbnomics)
