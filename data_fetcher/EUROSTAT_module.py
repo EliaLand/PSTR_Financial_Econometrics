@@ -36,5 +36,3 @@ def fetch_EUROSTAT(dataset_code: str, filters: dict = None) -> pd.DataFrame:
     columns = list(data["dimension"].keys()) + ["value"]
     df = pd.DataFrame(records, columns=columns)
     return df
-
-print(fetch_EUROSTAT("nama_10_gdp", {"geo": "EA20", "na_item": "B1GQ"}))
