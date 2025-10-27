@@ -7,19 +7,13 @@
 import pandas as pd
 import wbgapi as wb
 
-def fetch_worldbank_data(indicator: str, countries: list = ["US"], start=2000, end=2025) -> pd.DataFrame:
-    """
-    Fetch indicator data from the World Bank API.
-    
-    Args:
-        indicator: Indicator code (e.g. 'NY.GDP.MKTP.CD')
-        countries: List of country ISO codes (default: ['US'])
-        start: Start year
-        end: End year
-    
-    Returns:
-        DataFrame with columns ['country', 'year', indicator].
-    """
+# Fetching function definition (fetch_WB)
+# (!!!) Annual data ONLY
+# indicator: dabase code (ex. "NY.GDP.MKTP.CD")
+# countries: list of countries (type=list, ex. ["USA", "FRA"])
+# start: start year (format YYYY, type=str, ex. "1947")
+# end: end year (format YYYY, type=str, ex. "2025")
+def fetch_WB(indicator: str, countries: list, start, end) -> pd.DataFrame:
     data = wb.data.DataFrame(indicator, countries, time=range(start, end + 1))
-    data = data.reset_index().rename(columns={"economy": "country", "time": "year"})
+    data = data.reset_index().rename(columns={"economy": "Country", "time": "Year"})
     return data
