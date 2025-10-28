@@ -20,3 +20,5 @@ def fetch_YFINANCE(symbol: str, start: str, end= str):
 # We keep both close price (at YYYY-MM-01) and volume 
     data = data[["YearMonth", "Close", "Volume"]]
     return data
+
+print(fetch_YFINANCE("^ATX", "2025-01-01", "2025-09-01"))
