@@ -80,4 +80,4 @@ for file in csv_files:
     parts.append(pd.read_csv(file, sep=",", decimal=".", dtype=str))
 
 US_import_USITC_raw_df = pd.concat(parts, ignore_index=True)
-US_import_USITC_raw_df.to_csv(OUT_FILE, index=False, sep=",", decimal=".")
+US_import_USITC_raw_df.to_csv(OUT_FILE, index=False, compression="gzip", sep=",", decimal=".")
