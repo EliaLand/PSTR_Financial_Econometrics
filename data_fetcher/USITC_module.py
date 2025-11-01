@@ -1,17 +1,32 @@
-import glob, os, re
+# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+# USITC MODULE
+# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-# === Paths ===
-XLSX_DIR = "data"              # where your 28 .xlsx live
-CSV_DIR  = "data_csv"          # where we'll write per-file CSVs
+# Requirements setup 
+import glob
+import os 
+import re
+import pandas as pd
+
+# Paths for saving 
+# We import raw .xlsx dfs from  USITC statistic bureau to then tranform them in more friendly .csv dfs
+XLSX_DIR = "raw_df/US_trade_data_xlsx"            
+CSV_DIR  = "raw_df/US_trade_data_csv"         
 OUT_FILE = "US_import_USITC_raw.csv"
 
+# Check existence of the directory 
+# Convert each Excel -> CSV (drop "Total:" rows)
 os.makedirs(CSV_DIR, exist_ok=True)
-
-# Convert each Excel -> CSV (drop 'Total:' rows)
 xlsx_files = glob.glob(os.path.join(XLSX_DIR, "*.xlsx"))
 print(f"Found {len(xlsx_files)} Excel files.")
 
-# Chat-GPT Function :
+
+
+#____________________________________________________________________________________________________
+# Helper functions for cleaning the df
+#____________________________________________________________________________________________________
+
+# Country name cleaning 
 def clean_country_name_from_df(df):
     if "Country" in df.columns:
         vals = df["Country"].dropna().unique()
@@ -19,16 +34,23 @@ def clean_country_name_from_df(df):
             return str(vals[0]).strip()
     return None
 
+# Drop useless footer rows  
 def drop_total_rows(df):
-    # First column is usually "Data Type"; drop any footer rows like "Total:" (any case/spaces)
     first_col = df.columns[0]
     mask_total = df[first_col].astype(str).str.fullmatch(r"\s*Total:\s*", case=False, na=False)
-    # Also defensively drop rows where all key identifiers are NaN but a big grand total sits in value column
+
+# If all the key columns are NaN for one row, drop the row
     key_cols = [c for c in ["Country","Year","Month","HTS Number","Description"] if c in df.columns]
     if key_cols:
         mask_empty_keys = df[key_cols].isna().all(axis=1)
         return df.loc[~(mask_total | mask_empty_keys)].copy()
     return df.loc[~mask_total].copy()
+
+#____________________________________________________________________________________________________
+
+
+
+
 
 for f in xlsx_files:
     try:
